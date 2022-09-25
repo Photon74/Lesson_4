@@ -10,6 +10,32 @@ namespace Lesson_4
     {
         static void Main(string[] args)
         {
+#if DEBUG
+            Console.Title = Properties.Settings.Default.AppNameDebug;
+#else
+            Console.Title = Properties.Settings.Default.AppName;
+#endif
+
+            if (string.IsNullOrEmpty(Properties.Settings.Default.Fio) || Properties.Settings.Default.Age <= 0)
+            {
+                Console.Write("Введите ФИО: ");
+                Properties.Settings.Default.Fio = Console.ReadLine();
+
+                Console.Write("Введите возраст: ");
+                if (int.TryParse(Console.ReadLine(), out int age))
+                {
+                    Properties.Settings.Default.Age = age;
+                }
+                else
+                {
+                    Properties.Settings.Default.Age = 0;
+                }
+                Properties.Settings.Default.Save();
+            }
+            Console.WriteLine($"ФИО: {Properties.Settings.Default.Fio}");
+            Console.WriteLine($"Возраст: {Properties.Settings.Default.Age}");
+
+            Console.ReadKey(true);
         }
     }
 }
